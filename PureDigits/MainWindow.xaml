@@ -1,0 +1,354 @@
+﻿<Window x:Class="PureDigits.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PureDigits"
+        mc:Ignorable="d"
+        Title="PureDigits" Height="500" Width="350" MinHeight="440" MinWidth="250" Icon="/kissp.jpg">
+
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                <GradientStop Color="#B0DFFF" Offset="0" />
+                <GradientStop Color="Black"  Offset="1" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" MaxHeight="200"/>
+            <RowDefinition  Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="InputHistory" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="10, 15, 10, 10" FontFamily="Segoe UI" FontSize="25" Foreground="#EFEFEF" Background="#B0C3FF" FontWeight="Bold" SelectionChanged="InputHistory_SelectionChanged">
+            <ComboBox.Resources>
+                <Style TargetType="ScrollBar" x:Key="{x:Type ScrollBar}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid>
+                                    <Track Name="PART_Track" IsDirectionReversed="True">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.LineLeftCommand" Width="0" Height="0"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Background="Gray"/>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.LineRightCommand" Width="0" Height="0"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="Orientation" Value="Horizontal">
+                                        <Setter TargetName="PART_Track" Property="Height" Value="5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+
+                <Style TargetType="ComboBoxItem">
+                    <Setter Property="Foreground" Value="#EFEFEF" />
+                    <Setter Property="Background" Value="#B0C3FF" />
+                </Style>
+            </ComboBox.Resources>
+
+            <ComboBox.Template>
+                <ControlTemplate TargetType="ComboBox">
+                    <Grid>
+                        <ToggleButton Name="ToggleButton" Background="{TemplateBinding Background}" Foreground="#EFEFEF" Content="{Binding Path=SelectedItem, RelativeSource={RelativeSource TemplatedParent}}" IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" />
+
+                        <Popup Name="Popup" Placement="Bottom" IsOpen="{TemplateBinding IsDropDownOpen}" AllowsTransparency="True" Focusable="False" PopupAnimation="Slide">
+                            <Grid Name="DropDown" SnapsToDevicePixels="True">
+                                <Border Name="DropDownBorder" Background="#B0C3FF" BorderThickness="1" >
+                                    <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
+                                        <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained"/>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Popup>
+                    </Grid>
+                </ControlTemplate>
+            </ComboBox.Template>
+        </ComboBox>
+
+
+        <TextBox x:Name="ExpressionInput" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" Margin="10, 4" IsReadOnly="True" TextAlignment="Center" VerticalContentAlignment="Center" ScrollViewer.HorizontalScrollBarVisibility="Auto" FontFamily="Segoe UI" FontSize="30" Foreground="#EFEFEF " Background="#8699D8" FontWeight="Bold">
+            <TextBox.Resources>
+                <Style TargetType="ScrollBar" x:Key="{x:Type ScrollBar}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ScrollBar">
+                                <Grid>
+                                    <Track Name="PART_Track" IsDirectionReversed="True">
+                                        <Track.DecreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.LineLeftCommand" Width="0" Height="0"/>
+                                        </Track.DecreaseRepeatButton>
+                                        <Track.Thumb>
+                                            <Thumb Background="Gray"/>
+                                        </Track.Thumb>
+                                        <Track.IncreaseRepeatButton>
+                                            <RepeatButton Command="ScrollBar.LineRightCommand" Width="0" Height="0"/>
+                                        </Track.IncreaseRepeatButton>
+                                    </Track>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="Orientation" Value="Horizontal">
+                                        <Setter TargetName="PART_Track" Property="Height" Value="5"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </TextBox.Resources>
+            <TextBox.Template>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8" BorderBrush="Black" BorderThickness="1">
+                        <ScrollViewer x:Name="PART_ContentHost"/>
+                    </Border>
+                </ControlTemplate>
+            </TextBox.Template>
+        </TextBox>
+
+        <Button x:Name="ButtonRow0Col0" Content="CE" Grid.Row="2" Grid.Column="0" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="ButtonRow0Col0_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow0Col1" Content="C" Grid.Row="2" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="ButtonRow0Col1_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow0Col2" Content="&lt;" Grid.Row="2" Grid.Column="2" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="ButtonRow0Col2_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow0Col3" Content="/" Grid.Row="2" Grid.Column="3" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow1Col0" Content="7" Grid.Row="3" Grid.Column="0" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow1Col1" Content="8" Grid.Row="3" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow1Col2" Content="9" Grid.Row="3" Grid.Column="2" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow1Col3" Content="*" Grid.Row="3" Grid.Column="3" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow2Col0" Content="4" Grid.Row="4" Grid.Column="0" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow2Col1" Content="5" Grid.Row="4" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow2Col2" Content="6" Grid.Row="4" Grid.Column="2" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow2Col3" Content="-" Grid.Row="4" Grid.Column="3" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow3Col0" Content="1" Grid.Row="5" Grid.Column="0" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow3Col1" Content="2" Grid.Row="5" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow3Col2" Content="3" Grid.Row="5" Grid.Column="2" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow3Col3" Content="+" Grid.Row="5" Grid.Column="3" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow6Col0" Content="." Grid.Row="6" Grid.Column="0" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow6Col1" Content="0" Grid.Row="6" Grid.Column="1" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="Button_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="ButtonRow6Col2" Content="=" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="3" Margin="5" FontFamily="Segoe UI" FontSize="35" Foreground="#EFEFEF" Background="#6A7D8A" FontWeight="Bold" Click="ButtonRow6Col2_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Border Background="{TemplateBinding Background}" CornerRadius="8">
+                        <Border.Effect>
+                            <DropShadowEffect ShadowDepth="0" Color="White" Opacity="0.5" BlurRadius="10"/>
+                        </Border.Effect>
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+    </Grid>
+</Window>

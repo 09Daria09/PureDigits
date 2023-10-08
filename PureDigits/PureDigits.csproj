@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Calcc.jpg" />
+    <None Remove="Calculator.ico" />
+    <None Remove="Calculator.png" />
+    <None Remove="istockphoto-1129487200-170667a.jpg" />
+    <None Remove="kissp.jpg" />
+    <None Remove="style.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Calcc.jpg" />
+    <Resource Include="Calculator.ico" />
+    <Resource Include="Calculator.png" />
+    <Resource Include="istockphoto-1129487200-170667a.jpg" />
+    <Resource Include="kissp.jpg" />
+    <Resource Include="style.jpg" />
+  </ItemGroup>
+
+</Project>
